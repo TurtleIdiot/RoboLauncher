@@ -5,10 +5,9 @@ use std::collections::HashMap;
 use std::fs;
 use std::fs::File;
 use std::cmp::{max, min};
-use std::io::{Write, Read, SeekFrom, Seek, Cursor};
+use std::io::{Write, Read, SeekFrom, Seek};
 use std::process::{Command, Stdio};
 use std::time;
-use std::path::Path;
 
 use tauri::Window;
 use tar::Archive;

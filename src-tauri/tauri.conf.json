@@ -16,6 +16,10 @@
       "dialog": {
         "all": false,
         "open": true
+      },
+      "process": {
+        "all": false,
+        "exit": true
       }
     },
     "bundle": {

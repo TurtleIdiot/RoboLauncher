@@ -2,7 +2,9 @@
     import LaunchPanel from "$lib/LaunchPanel.svelte";
     import rc2logo from "$lib/images/RC2-logo.png";
     import { onMount } from "svelte";
+    import { goto } from '$app/navigation';
 
+    if (localStorage.getItem("disclaimerAccepted") !== "true") goto("/disclaimer", { replaceState: true })
     let dirSet = (localStorage.getItem("installDir") !== null)
     let errormsg = null;
     let infomsg = null;
