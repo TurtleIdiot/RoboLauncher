@@ -1,6 +1,5 @@
 <script>
     import LaunchPanel from "$lib/LaunchPanel.svelte";
-    import rc2logo from "$lib/images/RC2-logo.png";
     import { onMount } from "svelte";
     import { goto } from '$app/navigation';
 
@@ -15,7 +14,7 @@
 </script>
 
 <div class="flex flex-col mx-2 my-2 h-full">
-    <img src={rc2logo} alt="Robocraft 2 logo" class="mx-auto max-w-xl" />
+    <h1 class="text-center text-white text-7xl my-2"><strong>RoboLauncher</strong></h1>
     <h1 class="w-fit mx-auto text-white text-xl mb-16">The (unofficial) robocraft linux launcher</h1>
     
     <div class="w-fit mx-auto">
