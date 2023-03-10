@@ -171,13 +171,15 @@
     {#if installing}
         <div class="tooltip tooltip-bottom" data-tip="Stop update/install">
             <button class="btn btn-lg btn-outline btn-error ml-1" on:click={() => {installing = false}}>
-                <i class="fa-solid fa-x"></i>
+                <!-- fonsawesome solid x -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
             </button>
         </div>
     {:else}
         <div class="dropdown dropdown-end">
             <label tabindex="0" class="btn btn-lg btn-accent { running ? "btn-disabled" : "btn-outline" } ml-1">
-                <i class="fa-solid fa-ellipsis-vertical" />
+                <!-- fontawesome solid elipsis vertical -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M56 472a56 56 0 1 1 0-112 56 56 0 1 1 0 112zm0-160a56 56 0 1 1 0-112 56 56 0 1 1 0 112zM0 96a56 56 0 1 1 112 0A56 56 0 1 1 0 96z"/></svg>
             </label>
             <ul tabindex="0" class="dropdown-content menu mt-1 p-2 shadow bg-base-200 rounded-box w-52">
               <li><a href="settings" on:click={()=>{dispatch("error",null)}}>Settings</a></li>
