@@ -4,6 +4,14 @@
     let directory = "";
     let configDir = localStorage.getItem("installDir")
     if (configDir !== null) directory = configDir
+    let config
+    if (localStorage.getItem("prefs") !== null) {
+        config = JSON.parse(localStorage.getItem("prefs"))
+    } else {
+        config = {
+            ESYNC: true, FSYNC: true, FSR: false, FSR_STRENGTH: 0, MANGOHUD: false
+        }
+    }
 
     async function selectDirectory() {
         let selected = await open({
@@ -20,6 +28,7 @@
             directory = directory.replace(/\/{1}$/g, "")
             if (localStorage.getItem("installDir") != directory) localStorage.setItem("freshInstall", "1")
             localStorage.setItem("installDir", directory)
+            localStorage.setItem("prefs", JSON.stringify(config))
         }
     }
 </script>
@@ -40,17 +49,71 @@
     </div>
 </div>
 
-<div class="flex flex-column mx-auto my-auto">
+<div class="flex flex-column mx-auto mb-4">
     <div class="flex flex-row w-5/6 mx-auto">
         <div class="form-control w-full mr-2">
             <label class="label"><span class="label-text">Install directory</span></label>
             <input type="text" placeholder="Full directory path here..." class="input input-bordered w-full" bind:value={directory}/>
         </div>
-        <div class="tooltip tooltip-bottom mt-auto" data-tip="Browse">
+        <div class="tooltip tooltip-right mt-auto" data-tip="Browse">
             <button class="btn" on:click={selectDirectory}>
                 <i class="fa-solid fa-folder-open" /> 
             </button>
         </div>
+    </div>
+</div>
+<div class="w-5/6 mx-auto">
+    <div class="form-control w-1/2">
+        <label class="label cursor-pointer">
+            <span class="label-text">
+                <div class="tooltip tooltip-right" data-tip="Aims to reduce overhead in CPU-intensive games. May improve performance">
+                    Enable Esync
+                </div>
+            </span> 
+            <input type="checkbox" class="toggle" bind:checked={config.ESYNC} />
+        </label>
+    </div>
+    <div class="form-control w-1/2">
+        <label class="label cursor-pointer">
+            <span class="label-text">
+                <div class="tooltip tooltip-right" data-tip="Aims to reduce overhead in CPU-intensive games on supported kernels. May improve performance">
+                    Enable Fsync
+                </div>
+            </span> 
+            <input type="checkbox" class="toggle" bind:checked={config.FSYNC} />
+        </label>
+    </div>
+    <div class="form-control w-1/2">
+        <label class="label cursor-pointer">
+            <span class="label-text">
+                <div class="tooltip tooltip-right" data-tip="AMD's FSR helps boots framerates by upscaling lower resolutions in fullscreen mode. May improve performance">
+                    Enable FSR
+                </div>
+            </span> 
+            <input type="checkbox" class="toggle" bind:checked={config.FSR} />
+        </label>
+    </div>
+    <div class="w-1/2">
+        <p class="label-text pl-1 my-1">FSR sharpening strength</p>
+        <input type="range" min="0" max="125" bind:value={config.FSR_STRENGTH} class="range mt-1" step="25" />
+        <div class="w-full flex justify-between text-xs px-2 mb-1">
+            <span>Min</span>
+            <span>|</span>
+            <span class="ml-2 mr-1">|</span>
+            <span class="mr-2 ml-1">|</span>
+            <span>|</span>
+            <span>Max</span>
+        </div>
+    </div>
+    <div class="form-control w-1/2">
+        <label class="label cursor-pointer">
+            <span class="label-text">
+                <div class="tooltip tooltip-right" data-tip="Enables Mangohud for FPS, CPU usage and GPU usage display. Mangohud needs to be installed separately">
+                    Enable Mangohud
+                </div>
+            </span> 
+            <input type="checkbox" class="toggle" bind:checked={config.MANGOHUD} />
+        </label>
     </div>
 </div>
 

@@ -153,18 +153,25 @@ export async function createActionSet(installDir, validity, latestversion) {
     let actionset = []
 
     if (validity.gameInstall && validity.gameVerification && validity.runtime && validity.prefix) {
-        let runprefs = localStorage.getItem("runPrefs")
-        let env = {}
+        let env = {
+            "WINEPREFIX": `${installDir}/prefix`,
+            "PROTON_USE_WINED3D": "0",
+            "PROTON_ENABLE_NVAPI": "1",
+            "PROTON_EAC_RUNTIME": `${installDir}/runtimes/eac_runtime/v2/`,
+        }
+        let runprefs = localStorage.getItem("prefs")
+        if (runprefs !== null) {
+            runprefs = JSON.parse(runprefs)
+            env["MANGOHUD"] = runprefs.MANGOHUD ? "1" : "0"
+            env["PROTON_NO_ESYNC"] = runprefs.ESYNC ? "0" : "1"
+            env["PROTON_NO_FSYNC"] = runprefs.FSYNC ? "0" : "1"
+            env["WINE_FULLSCREEN_FSR"] = runprefs.FSR ? "1" : "0"
+            env["WINE_FULLSCREEN_FSR_STRENGTH"] = Math.abs((runprefs.FSR_STRENGTH/25) - 5).toString()
+        }
         return [false, [ { action: runCmd, args: {
             runtime: "runtimes/proton/bin/wine",
             args: [ `${installDir}/game/StartRobocraft2.exe` ],
-            env: {
-                "WINEPREFIX": `${installDir}/prefix`,
-                "PROTON_USE_WINED3D": "1",
-                "PROTON_ENABLE_NVAPI": "1",
-                "PROTON_EAC_RUNTIME": `${installDir}/runtimes/eac_runtime/v2/`,
-                "MANGOHUD": "1"
-            },
+            env: env,
             wait: true
         }} ]]
     }
