@@ -25,3 +25,7 @@ dist-ssr
 
 .svelte-kit
 .svelte-kit/*
+
+build
+build/
+build/*
