@@ -107,7 +107,7 @@ docker exec -it robolauncherbuild bash
 Install node
 
 ```
-curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
 apt install nodejs
 ```
 
