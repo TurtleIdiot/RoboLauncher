@@ -9,7 +9,7 @@
         config = JSON.parse(localStorage.getItem("prefs"))
     } else {
         config = {
-            ESYNC: true, FSYNC: true, FSR: false, FSR_STRENGTH: 0, MANGOHUD: false
+            ESYNC: true, FSYNC: true, FSR: false, FSR_STRENGTH: 0, MANGOHUD: false, NVAPI: false, WINED3D: false
         }
     }
 
@@ -93,6 +93,26 @@
                 </div>
             </span> 
             <input type="checkbox" class="toggle" bind:checked={config.FSR} />
+        </label>
+    </div>
+    <div class="form-control w-1/2">
+        <label class="label cursor-pointer">
+            <span class="label-text">
+                <div class="tooltip tooltip-right" data-tip="Use wined3d. May increase compatibility at the cost of decreased performance">
+                    Use WINED3D
+                </div>
+            </span> 
+            <input type="checkbox" class="toggle" bind:checked={config.WINED3D} />
+        </label>
+    </div>
+    <div class="form-control w-1/2">
+        <label class="label cursor-pointer">
+            <span class="label-text">
+                <div class="tooltip tooltip-right" data-tip="Enabled Nvidia's NVAPI. May increase performance on Nvidia cards">
+                    Enable NVAPI
+                </div>
+            </span> 
+            <input type="checkbox" class="toggle" bind:checked={config.NVAPI} />
         </label>
     </div>
     <div class="w-1/2">

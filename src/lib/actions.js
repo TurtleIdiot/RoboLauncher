@@ -162,11 +162,13 @@ export async function createActionSet(installDir, validity, latestversion) {
         let runprefs = localStorage.getItem("prefs")
         if (runprefs !== null) {
             runprefs = JSON.parse(runprefs)
-            env["MANGOHUD"] = runprefs.MANGOHUD ? "1" : "0"
-            env["PROTON_NO_ESYNC"] = runprefs.ESYNC ? "0" : "1"
-            env["PROTON_NO_FSYNC"] = runprefs.FSYNC ? "0" : "1"
-            env["WINE_FULLSCREEN_FSR"] = runprefs.FSR ? "1" : "0"
-            env["WINE_FULLSCREEN_FSR_STRENGTH"] = Math.abs((runprefs.FSR_STRENGTH/25) - 5).toString()
+            if (prefs.MANGOHUD) env["MANGOHUD"] = "1"
+            if (!prefs.ESYNC) env["PROTON_NO_ESYNC"] = "1"
+            if (!prefs.FSYNC) env["PROTON_NO_FSYNC"] = "1"
+            if (prefs.FSR) {
+                env["WINE_FULLSCREEN_FSR"] = "1"
+                env["WINE_FULLSCREEN_FSR_STRENGTH"] = Math.abs((runprefs.FSR_STRENGTH/25) - 5).toString()
+            }
         }
         return [false, [ { action: runCmd, args: {
             runtime: "runtimes/proton/bin/wine",
