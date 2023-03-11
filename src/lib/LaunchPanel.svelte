@@ -137,10 +137,10 @@
             return
         }
         buttontext = "Install"
-        if (localStorage.getItem("freshInstall") === "1") return primaryBtnEnabled = true
         let res = await checkInstall(installDir)
         status.valid = res.valid
         status.gameVersion = res.gameVersion
+        if (localStorage.getItem("freshInstall") === "1" && !status.gameVersion) return primaryBtnEnabled = true
         if (res.errorMsg) {
             dispatch("warning", res.errorMsg)
         }
@@ -158,7 +158,6 @@
                 }
             }
         }
-        console.log("precheck done")
     }
     precheck()
 </script>
