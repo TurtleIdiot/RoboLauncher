@@ -161,7 +161,7 @@ export async function createActionSet(installDir, validity, latestversion) {
         }
         let runprefs = localStorage.getItem("prefs")
         if (runprefs !== null) {
-            runprefs = JSON.parse(runprefs)
+            let prefs = JSON.parse(runprefs)
             if (prefs.MANGOHUD) env["MANGOHUD"] = "1"
             if (!prefs.ESYNC) env["PROTON_NO_ESYNC"] = "1"
             if (!prefs.FSYNC) env["PROTON_NO_FSYNC"] = "1"
