@@ -14,8 +14,8 @@
 </script>
 
 <div class="flex flex-col mx-2 my-2 h-full">
-    <h1 class="text-center text-white text-7xl my-2"><strong>RoboLauncher</strong></h1>
-    <h1 class="w-fit mx-auto text-white text-xl mb-16">The (unofficial) robocraft linux launcher</h1>
+    <h1 class="text-center text-7xl my-2"><strong>RoboLauncher</strong></h1>
+    <h1 class="w-fit mx-auto text-xl mb-16">The (unofficial) robocraft linux launcher</h1>
     
     <div class="w-fit mx-auto">
         <LaunchPanel
