@@ -28,7 +28,10 @@ sudo apt install ./robo-launcher_X.X.X_amd64.deb
 
 ## Other distributions
 
-For all other distributions, simply download the AppImage bundle from [the releases page](https://github.com/TurtleIdiot/RoboLauncher/releases)
+For all other distributions, simply download the AppImage bundle from [the releases page](https://github.com/TurtleIdiot/RoboLauncher/releases) and set the correct permission for execution:
+```
+chmod a+x ./robo-launcher_X.X.X_amd64.AppImage
+```
 Flatpak is currently being considered
 
 # Usage
