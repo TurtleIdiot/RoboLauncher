@@ -1,9 +1,10 @@
 <script>
     import { exit } from '@tauri-apps/api/process';
     import { goto } from '$app/navigation';
+	import { disclaimerStore } from '$lib/stores';
 
     function acceptDisclaimer() {
-        localStorage.setItem("disclaimerAccepted", "true")
+        disclaimerStore.set(true)
         goto("/", { replaceState: true })
     }
 </script>
