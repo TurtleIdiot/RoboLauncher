@@ -5,6 +5,8 @@ An unofficial launcher for Robocraft 2 built with [tauri](https://tauri.app/)
 # THIS LAUNCHER IS NOT OFFICIAL. IT IS NOT AFFILIATED WITH FREEJAM OR ROBOCRAFT2 DEVELOPMENT
 For windows users or for the official launcher download, click [here](https://www.robocraft2.com/)
 
+# V2: A partial rewrite
+
 A linux launcher for downloading and running Robocraft 2 using proton and dxvk
 
 This launcher was built to make installing and running Robocraft 2 under proton as close to one-click as possible and handles downloading runtimes like wine/proton, DXVK and EAC, setting up the wine prefix, downloading game files, etc.
