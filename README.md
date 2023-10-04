@@ -62,20 +62,20 @@ The menu button also has options for reistalling the game/runtimes, re-creating 
 
 This is a tauri project and therefore requires the [tauri prerequisites](https://tauri.app/v1/guides/getting-started/prerequisites#setting-up-linux)
 
-Ensure you also have [node.js](https://nodejs.org/) (v18+ recommended) and npm installed.
+Ensure you also have [bun](https://bun.sh) installed.
 
 Next, clone the repo and install dependencies
 
 ```
 git clone https://github.com/TurtleIdiot/RoboLauncher.git
 cd RoboLauncher
-npm install
+bun install
 ```
 
 Finally, run a debugging build with
 
 ```
-npm run tauri dev
+bun run tauri dev
 ```
 
 # Building
@@ -83,7 +83,7 @@ npm run tauri dev
 If you're building for your own system, you can simply use
 
 ```
-npm run tauri build
+bun run tauri build
 ```
 
 However, it is recommended to use an older system for building if you plan on distributing your build ([read more here](https://tauri.app/v1/guides/building/linux#limitations))
@@ -118,7 +118,7 @@ Setup dev environment
 ```
 git clone https://github.com/TurtleIdiot/RoboLauncher.git
 cd RoboLauncher
-npm install
+bun install
 ```
 
 Build and exit container
