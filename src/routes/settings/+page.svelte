@@ -1,10 +1,13 @@
 <script lang="ts">
+	import type { ModalComponent, ModalSettings, PopupSettings } from "@skeletonlabs/skeleton";
     import { open } from "@tauri-apps/api/dialog";
-	import { AppBar, RangeSlider, LightSwitch, getToastStore } from "@skeletonlabs/skeleton";
+	import { AppBar, RangeSlider, LightSwitch, getToastStore, getModalStore } from "@skeletonlabs/skeleton";
 
 	import { saveConfig, configMeta, configSchema } from "$lib/config";
 	import { installDir } from "$lib/stores.js";
+	import OptionInfoModal from "$lib/OptionInfoModal.svelte";
 
+	const modalStore = getModalStore();
 	const toastStore = getToastStore()
 
 	export let data;
@@ -76,6 +79,22 @@
 		data.config.customenv.splice(i, 1)
 		unique = {}
 	}
+
+	function showDescriptionModal(title: string, options: { [index: string]: any }) {
+		let info = []
+		for (let option in options) {
+			info.push([ configMeta[option].name, configMeta[option].description ])
+		}
+		let modalcomp: ModalComponent = {
+			ref: OptionInfoModal,
+			props: { title, info }
+		}
+		let modal: ModalSettings = {
+			type: "component",
+			component: modalcomp
+		}
+		modalStore.trigger(modal)
+	}
 </script>
 
 <AppBar>
@@ -101,8 +120,11 @@
     	</button>
 	</div>
     <div class="card p-2 variant-ghost">
-		<header class="card-header">
+		<header class="card-header flex flex-row justify-between">
 			<h3 class="h3">Runner options</h3>
+			<button type="button" class="btn-icon variant-filled" on:click={()=>showDescriptionModal("Runner options", data.config.runner)}>
+				<i class="fa-solid fa-question"/>
+			</button>
 		</header>
 		<section class="p-4 gap-2">
 			{#each Object.entries(data.config.runner) as [rOptionIndex, _]}
@@ -115,8 +137,11 @@
 	</div>
 
 	<div class="card p-2 variant-ghost">
-		<header class="card-header">
+		<header class="card-header flex flex-row justify-between">
 			<h3 class="h3">Graphics options</h3>
+			<button type="button" class="btn-icon variant-filled" on:click={()=>showDescriptionModal("Graphics options", data.config.graphics)}>
+				<i class="fa-solid fa-question"/>
+			</button>
 		</header>
 		<section class="p-4 gap-2">
 			{#each Object.entries(data.config.graphics) as [gOptionIndex, gValue]}
