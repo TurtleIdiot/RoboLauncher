@@ -8,7 +8,7 @@ export interface ICustomEnv {
 	value: string
 }
 
-export interface Iconfig {
+export interface IConfig {
 	graphics: { [index: string]: number | boolean },
 	runner: { [index: string]: boolean },
 	customenv: ICustomEnv[]
@@ -55,21 +55,15 @@ export const configMeta: IConfigMeta = {
 	usesyswine: { name: "Use system Wine", description: "Uses the system-wide version of wine. May break certain proton-specific functionality" }
 }
 
-export function getConfig(): Iconfig {
-	let config: Iconfig = { graphics: {}, runner: {}, customenv: [] }
-	let rawconfig = get(settings)
-	if (rawconfig === "") {
-		//@ts-ignore
-		config = configSchema.parse({ graphics: {}, runner: {}, customenv: [] })
-	} else {
-		config = JSON.parse(rawconfig)
-		//@ts-ignore
-		config = configSchema.parse(config)
-	}
+export function getConfig(): IConfig {
+	//@ts-ignore
+	let config: IConfig = get(settings)
+	//@ts-ignore
+	config = configSchema.parse({ graphics: {}, runner: {}, customenv: [] })
 	return config
 }
 
 export function saveConfig(newconfig: object) {
 	let parsed = configSchema.parse(newconfig)
-	settings.set(JSON.stringify(parsed))
+	settings.set(parsed)
 }

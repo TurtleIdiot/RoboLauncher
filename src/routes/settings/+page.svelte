@@ -1,9 +1,9 @@
 <script lang="ts">
-	import type { ModalComponent, ModalSettings, PopupSettings } from "@skeletonlabs/skeleton";
+	import type { ModalComponent, ModalSettings } from "@skeletonlabs/skeleton";
     import { open } from "@tauri-apps/api/dialog";
-	import { AppBar, RangeSlider, LightSwitch, getToastStore, getModalStore } from "@skeletonlabs/skeleton";
+	import { AppBar, RangeSlider, getToastStore, getModalStore } from "@skeletonlabs/skeleton";
 
-	import { saveConfig, configMeta, configSchema } from "$lib/config";
+	import { saveConfig, configMeta } from "$lib/config";
 	import { installDir } from "$lib/stores.js";
 	import OptionInfoModal from "$lib/OptionInfoModal.svelte";
 
@@ -11,6 +11,7 @@
 	const toastStore = getToastStore()
 
 	export let data;
+	let directory = data.directory
 	let unique = {}
 
     async function selectDirectory() {
@@ -18,15 +19,15 @@
             multiple: false,
             directory: true
         })
-        // @ts-ignore
-        if (selected !== null) data.directory = selected
+		//@ts-ignore
+        if (selected !== null) directory = selected
     }
 
     function save() {
-        if (data.directory !== "") {
-            let directory = data.directory.trim()
-            directory = directory.replace(/\/{1}$/g, "")
-            installDir.set(directory)
+        if (directory !== "") {
+            let dir = directory.trim()
+            dir = dir.replace(/\/{1}$/g, "")
+            installDir.set(dir)
         }
 
 		for (let i = 0; i < data.config.customenv.length; i++) {
@@ -105,7 +106,6 @@
 	</svelte:fragment>
 	Settings
 	<svelte:fragment slot="trail">
-		<LightSwitch />
 		<button type="button" class="btn variant-filled-secondary" on:click={save}>Save</button>
 	</svelte:fragment>
 </AppBar>
@@ -113,7 +113,7 @@
 <div class="w-5/6 mx-auto my-2 flex flex-col gap-3">
 	<p>Install Directory</p>
 	<div class="input-group input-group-divider grid-cols-[1fr_auto]">
-    	<input type="text" placeholder="Full directory path here..." bind:value={data.directory}/>
+    	<input type="text" placeholder="Full directory path here..." bind:value={directory}/>
 		<button class="variant-ghost" on:click={selectDirectory}>
     	    <!-- fontawesome folder open solid -->
     	    <i class="fa-solid fa-folder-open"></i>

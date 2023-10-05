@@ -5,19 +5,8 @@ import { getConfig } from "$lib/config";
 import { installDir } from "$lib/stores";
 import { invoke } from "@tauri-apps/api/tauri";
 
-interface ParsedConfig {
-	graphics: [ string, boolean|number ][],
-	runner: [ string, boolean ][],
-	customenv: ICustomEnv[]
-}
-
 export async function load() {
-    let rawconfig = getConfig();
-	let config: ParsedConfig = {
-		graphics: Object.entries(rawconfig.graphics),
-		runner: Object.entries(rawconfig.runner),
-		customenv: rawconfig.customenv
-	}
+    let config = getConfig();
 	let directory = get(installDir);
 	let wineversion: string
 
@@ -29,10 +18,10 @@ export async function load() {
 		}
 	} catch (err) {
 		console.warn(err)
-		wineversion = "Error checking"
+		wineversion = "Error checking version"
 	}
 
-	return { config: rawconfig, directory, wineversion: wineversion.trim() }
+	return { config, directory, wineversion: wineversion.trim() }
 }
 
 export const prerender = true;
