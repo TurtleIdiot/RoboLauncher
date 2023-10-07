@@ -11,10 +11,13 @@ const config = {
 		files: {
 			lib: "src/lib",
 			assets: "static"
+		},
+		prerender: {
+			entries: []
 		}
 	},
 
-    preprocess: [vitePreprocess({})]
+    preprocess: [vitePreprocess({})],
 };
 
 export default config;
