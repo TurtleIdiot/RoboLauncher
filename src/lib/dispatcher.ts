@@ -102,6 +102,7 @@ export async function auto() {
 		installing.set(true)
 		buttonStatus.setEnabled(false)
 		buttonStatus.setText("Installing...")
+		buttonStatus.setOtherOptionsEnabled(false)
 
 		try {
 
@@ -150,6 +151,7 @@ export async function reinstall(type: ResetType) {
 	installing.set(true)
 	buttonStatus.setEnabled(false)
 	buttonStatus.setText("Installing...")
+	buttonStatus.setOtherOptionsEnabled(false)
 	try {
 		switch(type) {
 			case ResetType.Game:
