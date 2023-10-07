@@ -106,11 +106,10 @@ Enter a shell inside the container
 docker exec -it robolauncherbuild bash
 ```
 
-Install node
+Install bun
 
 ```
-curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
-apt install nodejs
+curl -fsSL https://bun.sh/install | bash
 ```
 
 Setup dev environment
@@ -124,7 +123,7 @@ bun install
 Build and exit container
 
 ```
-npm run tauri build
+bun run tauri build
 (Wait for build to fully finish...)
 exit
 ```
