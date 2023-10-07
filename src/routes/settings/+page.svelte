@@ -3,8 +3,8 @@
     import { open } from "@tauri-apps/api/dialog";
 	import { AppBar, RangeSlider, getToastStore, getModalStore } from "@skeletonlabs/skeleton";
 
-	import { saveConfig, configMeta } from "$lib/config";
-	import { installDir } from "$lib/stores.js";
+	import { configMeta } from "$lib/config";
+	import { installDir, settings } from "$lib/stores.js";
 	import OptionInfoModal from "$lib/OptionInfoModal.svelte";
 
 	const modalStore = getModalStore();
@@ -55,7 +55,7 @@
 		}
 
 		try {
-			saveConfig(data.config)
+			settings.set(data.config)
 			toastStore.trigger({
 				message: `Settings saved`
 			})
