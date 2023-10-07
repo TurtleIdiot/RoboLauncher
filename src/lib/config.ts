@@ -56,17 +56,3 @@ export const configMeta: IConfigMeta = {
 	gamemode: { name: "Enable Feral GameMode", description: "Requests a set of temporary optimisations be applied. Gamemode must be installed" },
 	//usesyswine: { name: "Use system Wine", description: "Uses the system-wide version of wine. May break certain proton-specific functionality" }
 }
-
-export function getConfig(): IConfig {
-	//@ts-ignore
-	let config: IConfig = get(settings)
-	//@ts-ignore
-	config = configSchema.parse({ graphics: {}, runner: {}, customenv: [] })
-	return config
-}
-
-export function saveConfig(newconfig: object) {
-	let parsed = configSchema.parse(newconfig)
-	console.log(parsed)
-	settings.set(parsed)
-}

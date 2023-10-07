@@ -1,18 +1,20 @@
-import type { ICustomEnv } from "$lib/config";
-
 import { get } from "svelte/store";
-import { getConfig } from "$lib/config";
-import { installDir } from "$lib/stores";
+import { configSchema, type IConfig } from "$lib/config";
+import { installDir, settings } from "$lib/stores";
 import { invoke } from "@tauri-apps/api/tauri";
 
 export async function load() {
-    let config = getConfig();
+	//@ts-ignore
+    let config: IConfig = get(settings)
+	//@ts-ignore
+	config = configSchema.parse(config)
 	let directory = get(installDir);
 	let wineversion: string
+	console.log(config)
 
 	try {
 		if (await invoke("check_cmd_exists", { command: "wine", args: [ "--help" ] })) {
-			wineversion = await invoke("start_cmd", { runtime: "wine", env: {}, args: [ "--version" ], wait: true })
+			wineversion = await invoke("start_cmd", { command: "wine", env: {}, args: [ "--version" ], wait: true })
 		} else {
 			wineversion = "Not found"
 		}
@@ -24,6 +26,6 @@ export async function load() {
 	return { config, directory, wineversion: wineversion.trim() }
 }
 
-export const prerender = true;
+export const prerender = false;
 export const ssr = false;
 export const csr = true;
