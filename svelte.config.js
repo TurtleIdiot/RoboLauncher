@@ -11,9 +11,6 @@ const config = {
 		files: {
 			lib: "src/lib",
 			assets: "static"
-		},
-		prerender: {
-			entries: []
 		}
 	},
 

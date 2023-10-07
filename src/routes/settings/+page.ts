@@ -26,6 +26,6 @@ export async function load() {
 	return { config, directory, wineversion: wineversion.trim() }
 }
 
-export const prerender = false;
+export const prerender = true;
 export const ssr = false;
 export const csr = true;
