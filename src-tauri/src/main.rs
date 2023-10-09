@@ -5,11 +5,11 @@ use std::collections::HashMap;
 use std::fs;
 use std::fs::File;
 use std::cmp::{max, min};
-use std::io::{Write, Read, SeekFrom, Seek};
+use std::io::{Write, Read, SeekFrom, Seek, ErrorKind};
 use std::process::{Command, Stdio};
 use std::time;
 
-use tauri::Window;
+use tauri::{Window};
 use tar::Archive;
 use flate2::read::GzDecoder;
 use sha1::{Sha1, Digest};
@@ -32,7 +32,7 @@ async fn make_cors_request(url: String) -> Result<String, String> {
     }
     match res.text().await {
         Ok(text) => Ok(text),
-        Err(e) => Err(format!("Error reading response text"))
+        Err(_) => Err(format!("Error reading response text"))
     }
 }
 
@@ -58,34 +58,30 @@ async fn download_file(window: Window, url: String, path: String, filesize: u64)
         percentage: 0.0
     };
 
-    tokio::spawn( async move {
-        while let Some(chunk) = res.chunk().await.or(Err("Error getting byte chunk")).unwrap() {
-
-            if let Err(_) = file.write_all(&chunk) {
-                println!("Error while writing to file");
-                break;
-            }
-
-            downloaded_bytes = min(downloaded_bytes + (chunk.len() as u64), filesize);
-
-            progress.transfered = downloaded_bytes;
-            progress.percentage = (progress.transfered * 100 / filesize) as f64;
-            progress.transfer_rate = (downloaded_bytes as f64) / (start.elapsed().as_secs() as f64)
-                + (start.elapsed().subsec_nanos() as f64 / 1_000_000_000.0).trunc();
-            
-            if last_update.elapsed().as_millis() >= UPDATE_SPEED {
-                window.emit("PROGRESS", progress).or(Err("Error sending PROGRESS sig".to_string())).unwrap();
-                last_update = time::Instant::now();
-            }
+    
+    while let Some(chunk) = res.chunk().await.or(Err("Error getting byte chunk")).unwrap() {
+        if let Err(_) = file.write_all(&chunk) {
+            println!("Error while writing to file");
+            break;
         }
 
-        progress.transfered = max(filesize, progress.transfered);
-        progress.percentage = 100.0;
-        window.emit("PROGRESS", progress).or(Err("Error sending PROGRESS sig".to_string())).unwrap();
-        window.emit("FINISH", progress).or(Err("Error sending FINISH sig".to_string())).unwrap();
-    });
+        downloaded_bytes = min(downloaded_bytes + (chunk.len() as u64), filesize);
+        progress.transfered = downloaded_bytes;
+        progress.percentage = (progress.transfered * 100 / filesize) as f64;
+        progress.transfer_rate = (downloaded_bytes as f64) / (start.elapsed().as_secs() as f64)
+            + (start.elapsed().subsec_nanos() as f64 / 1_000_000_000.0).trunc();
+        
+        if last_update.elapsed().as_millis() >= UPDATE_SPEED {
+            window.emit("PROGRESS", progress).or(Err("Error sending PROGRESS sig".to_string())).unwrap();
+            last_update = time::Instant::now();
+        }
+    }
+    progress.transfered = max(filesize, progress.transfered);
+    progress.percentage = 100.0;
+    window.emit("PROGRESS", progress).or(Err("Error sending PROGRESS sig".to_string())).unwrap();
+    window.emit("FINISH", progress).or(Err("Error sending FINISH sig".to_string())).unwrap();
 
-    Ok("Download started".to_string())
+    Ok("File downloaded".to_string())
 }
 
 #[tauri::command(async)]
@@ -132,19 +128,37 @@ async fn sha1filehash(path: String) -> Result<String, String> {
 }
 
 #[tauri::command(async)]
-async fn start_cmd(runtime: String, env: HashMap<String, String>, args: Vec<String>, wait: bool) -> Result<String, String> {
-    let mut child = Command::new(runtime)
-        .stdout(Stdio::null())
+async fn start_cmd(command: String, env: HashMap<String, String>, args: Vec<String>, wait: bool) -> Result<String, String> {
+    let mut child: std::process::Child = Command::new(command)
+        .stdout(Stdio::piped())
         .envs(&env)
         .args(&args)
-        .spawn().or(Err("Error spawing child process".to_string())).unwrap();
+        .spawn().map_err(|e| e.to_string())?;
 
-
-    if wait {
+	let mut out: String = String::new();
+	if wait {
         child.wait().or(Err("Error waiting for child process to finish".to_string())).unwrap();
+		let mut stdout = child.stdout.take().unwrap();
+		stdout.read_to_string(&mut out).or(Err("Error reading child process output".to_string())).unwrap();
     }
 
-    Ok("Finished".to_string())
+	Ok(out)
+}
+
+#[tauri::command]
+fn check_cmd_exists(command: String, args: Vec<String>) -> Result<bool, String> {
+	match Command::new(command)
+		.args(&args)
+		.spawn() {
+		Ok(_) => Ok(true),
+		Err(e) => {
+			if e.kind() == ErrorKind::NotFound {
+				Ok(false)
+			} else {
+				Err("Error checking of command exists".to_string())
+			}
+		}
+	}
 }
 
 #[tauri::command]
@@ -219,7 +233,7 @@ fn rename(src: String, dest: String) -> bool {
 fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
-            make_cors_request, download_file, unpack_xz, unpack_gz, sha1filehash, start_cmd,
+            make_cors_request, download_file, unpack_xz, unpack_gz, sha1filehash, start_cmd, check_cmd_exists,
             path_exists, remove_dir, create_dir, remove_file, create_file, read_file, write_file, copy, rename
         ])
         .run(tauri::generate_context!())

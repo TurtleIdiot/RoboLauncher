@@ -60,7 +60,7 @@ The menu button also has options for reistalling the game/runtimes, re-creating 
 
 This is a tauri project and therefore requires the [tauri prerequisites](https://tauri.app/v1/guides/getting-started/prerequisites#setting-up-linux)
 
-Ensure you also have [node.js](https://nodejs.org/) (v18+ recommended) and npm installed.
+Ensure you also have [nodejs](https://nodejs.org) and [npm](https://www.npmjs.com/) (or your prefered package manager) installed.
 
 Next, clone the repo and install dependencies
 
@@ -104,11 +104,17 @@ Enter a shell inside the container
 docker exec -it robolauncherbuild bash
 ```
 
-Install node
+Install node and npm (instructions from [nodesource](https://github.com/nodesource/distributions))
 
 ```
-curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
-apt install nodejs
+sudo apt-get update
+sudo apt-get install -y ca-certificates curl gnupg
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+NODE_MAJOR=20
+echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
+sudo apt-get update
+sudo apt-get install nodejs -y
 ```
 
 Setup dev environment
