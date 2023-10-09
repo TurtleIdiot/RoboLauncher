@@ -25,13 +25,19 @@ Run the command
 ```
 sudo apt install ./robo-launcher_X.X.X_amd64.deb
 ```
+And then launch from your app launcher
 
 ## Other distributions
 
 For all other distributions, simply download the AppImage bundle from [the releases page](https://github.com/TurtleIdiot/RoboLauncher/releases) and set the correct permission for execution:
 ```
-chmod a+x ./robo-launcher_X.X.X_amd64.AppImage
+chmod +x ./robo-launcher_X.X.X_amd64.AppImage
 ```
+Then run the appimage;
+```
+./robo-launcher_X.X.X_amd64.AppImage
+```
+You may want to use something like [AppImageLauncher](https://github.com/TheAssassin/AppImageLauncher) to integrate appimages into the system and not have to find the file every time
 Flatpak is currently being considered
 
 # Usage
