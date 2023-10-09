@@ -1,7 +1,7 @@
 {
   "build": {
-    "beforeDevCommand": "bun dev",
-    "beforeBuildCommand": "bun run build",
+    "beforeDevCommand": "npm run dev",
+    "beforeBuildCommand": "npm run build",
     "devPath": "http://localhost:1420",
     "distDir": "../build",
     "withGlobalTauri": true

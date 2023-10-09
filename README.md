@@ -5,8 +5,6 @@ An unofficial launcher for Robocraft 2 built with [tauri](https://tauri.app/)
 # THIS LAUNCHER IS NOT OFFICIAL. IT IS NOT AFFILIATED WITH FREEJAM OR ROBOCRAFT2 DEVELOPMENT
 For windows users or for the official launcher download, click [here](https://www.robocraft2.com/)
 
-# V2: A partial rewrite
-
 A linux launcher for downloading and running Robocraft 2 using proton and dxvk
 
 This launcher was built to make installing and running Robocraft 2 under proton as close to one-click as possible and handles downloading runtimes like wine/proton, DXVK and EAC, setting up the wine prefix, downloading game files, etc.
@@ -62,20 +60,20 @@ The menu button also has options for reistalling the game/runtimes, re-creating 
 
 This is a tauri project and therefore requires the [tauri prerequisites](https://tauri.app/v1/guides/getting-started/prerequisites#setting-up-linux)
 
-Ensure you also have [bun](https://bun.sh) installed.
+Ensure you also have [nodejs](https://nodejs.org) and [npm](https://www.npmjs.com/) (or your prefered package manager) installed.
 
 Next, clone the repo and install dependencies
 
 ```
 git clone https://github.com/TurtleIdiot/RoboLauncher.git
 cd RoboLauncher
-bun install
+npm install
 ```
 
 Finally, run a debugging build with
 
 ```
-bun run tauri dev
+npm run tauri dev
 ```
 
 # Building
@@ -83,7 +81,7 @@ bun run tauri dev
 If you're building for your own system, you can simply use
 
 ```
-bun run tauri build
+npm run tauri build
 ```
 
 However, it is recommended to use an older system for building if you plan on distributing your build ([read more here](https://tauri.app/v1/guides/building/linux#limitations))
@@ -106,10 +104,17 @@ Enter a shell inside the container
 docker exec -it robolauncherbuild bash
 ```
 
-Install bun
+Install node and npm (instructions from [nodesource](https://github.com/nodesource/distributions))
 
 ```
-curl -fsSL https://bun.sh/install | bash
+sudo apt-get update
+sudo apt-get install -y ca-certificates curl gnupg
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+NODE_MAJOR=20
+echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
+sudo apt-get update
+sudo apt-get install nodejs -y
 ```
 
 Setup dev environment
@@ -117,13 +122,13 @@ Setup dev environment
 ```
 git clone https://github.com/TurtleIdiot/RoboLauncher.git
 cd RoboLauncher
-bun install
+npm install
 ```
 
 Build and exit container
 
 ```
-bun run tauri build
+npm run tauri build
 (Wait for build to fully finish...)
 exit
 ```
