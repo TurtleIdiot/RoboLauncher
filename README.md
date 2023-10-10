@@ -66,20 +66,20 @@ The menu button also has options for reistalling the game/runtimes, re-creating 
 
 This is a tauri project and therefore requires the [tauri prerequisites](https://tauri.app/v1/guides/getting-started/prerequisites#setting-up-linux)
 
-Ensure you also have [nodejs](https://nodejs.org) and [npm](https://www.npmjs.com/) (or your prefered package manager) installed.
+Ensure you also have [bun](https://bun.sh) installed.
 
 Next, clone the repo and install dependencies
 
 ```
 git clone https://github.com/TurtleIdiot/RoboLauncher.git
 cd RoboLauncher
-npm install
+bun install
 ```
 
 Finally, run a debugging build with
 
 ```
-npm run tauri dev
+bun run tauri dev
 ```
 
 # Building
@@ -87,7 +87,7 @@ npm run tauri dev
 If you're building for your own system, you can simply use
 
 ```
-npm run tauri build
+bun run tauri build
 ```
 
 However, it is recommended to use an older system for building if you plan on distributing your build ([read more here](https://tauri.app/v1/guides/building/linux#limitations))
@@ -110,17 +110,10 @@ Enter a shell inside the container
 docker exec -it robolauncherbuild bash
 ```
 
-Install node and npm (instructions from [nodesource](https://github.com/nodesource/distributions))
+Install bun
 
 ```
-sudo apt-get update
-sudo apt-get install -y ca-certificates curl gnupg
-sudo mkdir -p /etc/apt/keyrings
-curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
-NODE_MAJOR=20
-echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
-sudo apt-get update
-sudo apt-get install nodejs -y
+curl -fsSL https://bun.sh/install | bash
 ```
 
 Setup dev environment
@@ -128,13 +121,13 @@ Setup dev environment
 ```
 git clone https://github.com/TurtleIdiot/RoboLauncher.git
 cd RoboLauncher
-npm install
+bun install
 ```
 
 Build and exit container
 
 ```
-npm run tauri build
+bun run tauri build
 (Wait for build to fully finish...)
 exit
 ```
